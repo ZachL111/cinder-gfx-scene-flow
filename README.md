@@ -1,68 +1,40 @@
 # cinder-gfx-scene-flow
 
-`cinder-gfx-scene-flow` treats graphics as a local verification problem. The Dart implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`cinder-gfx-scene-flow` is a Dart project in graphics. Its focus is to design a Dart verification harness for scene systems, covering visual model generation, layout fixtures, and failure-oriented tests.
 
-## Cinder Gfx Scene Flow Checkpoints
+## Project Rationale
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Useful Pieces
+## Cinder Gfx Scene Flow Review Notes
 
-- Includes extended examples for render inputs, including `surge` and `degraded`.
-- Documents stable output tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+`stale` and `edge` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## What This Is For
+## Feature Set
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+- `fixtures/domain_review.csv` adds cases for geometry span and atlas pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/cinder-gfx-scene-walkthrough.md` walks through the case spread.
+- The Dart code includes a review path for `geometry span` and `shader drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Project Layout
+## Architecture
 
-- `lib`: library code
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `geometry span`, `atlas pressure`, `shader drift`, and `render budget`.
 
-## Architecture Notes
+The Dart implementation avoids hidden state so fixture changes are easy to reason about.
 
-The design is intentionally direct: parse or construct a signal, score it, classify it, and verify the expected branch. This makes the repository useful for studying graphics behavior without needing a service or database unless the language project itself is SQL. The Dart project uses a small library and assertion script, avoiding package dependencies for verification.
-
-## Local Workflow
+## Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Test Command
 
-## Case Study
+The check exercises the source code and the review fixture. `stale` is the high score at 206; `edge` is the low score at 135.
 
-`surge` is the first example I would inspect because it lands on the `accept` path with a score of 231. The broader file also keeps `degraded` at -53 and `surge` at 231, which gives the model a useful low-to-high spread.
+## Next Improvements
 
-## Quality Gate
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Scope
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
-
-## Expansion Ideas
-
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Add one more graphics fixture that focuses on a malformed or borderline input.
-
-## Tooling
-
-Install Dart and run the commands from the repository root. The project does not need credentials or a hosted service.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.

@@ -1,0 +1,73 @@
+{
+  "repo": "cinder-gfx-scene-flow",
+  "language": "Dart",
+  "category": "Graphics",
+  "goal": "Design a Dart verification harness for scene systems, covering visual model generation, layout fixtures, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "geometry span",
+      "atlas pressure",
+      "shader drift",
+      "render budget"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "geometry span",
+      "signal": 71,
+      "slack": 32,
+      "drag": 21,
+      "confidence": 87,
+      "score": 198,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "atlas pressure",
+      "signal": 57,
+      "slack": 51,
+      "drag": 18,
+      "confidence": 68,
+      "score": 179,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "shader drift",
+      "signal": 63,
+      "slack": 24,
+      "drag": 26,
+      "confidence": 63,
+      "score": 135,
+      "lane": "watch"
+    },
+    {
+      "name": "recovery",
+      "focus": "render budget",
+      "signal": 61,
+      "slack": 53,
+      "drag": 21,
+      "confidence": 49,
+      "score": 161,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "geometry span",
+      "signal": 84,
+      "slack": 48,
+      "drag": 27,
+      "confidence": 71,
+      "score": 206,
+      "lane": "ship"
+    }
+  ]
+}
